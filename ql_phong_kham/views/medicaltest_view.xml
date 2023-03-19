@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="medicaltest_view_tree" model="ir.ui.view">
+            <field name="name">medicaltest_view_tree</field>
+            <field name="model">dv.medicaltest</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="medicaltest_view_form" model="ir.ui.view">
+            <field name="name">medicaltest_view_form</field>
+            <field name="model">dv.medicaltest</field>
+            <field name="arch" type="xml">
+                <form>
+                <sheet>
+                    <group>
+                        <field name="name" placeholder="Tên dịch vụ khám"/>
+                        <field name="price"/>
+                    </group>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+
+        <record id="medicaltest_search" model="ir.ui.view">
+            <field name="name">Medicaltest Search</field>
+            <field name="model">dv.medicaltest</field>
+            <field name="arch" type="xml">
+                <search string="Medicaltest">
+                    <field name="name"/>
+                </search>
+                </field>
+        </record>
+
+        <record id="medicaltest_action" model="ir.actions.act_window">
+            <field name="name">Dịch vụ khám</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dv.medicaltest</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Danh sách dịch vụ khám trống
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Dịch vụ khám" id="medicaltest_menu_id" sequence="4"
+                  parent="ql_phong_kham.patient_root_menu_id" action="ql_phong_kham.medicaltest_action"/>
+
+
+    </data>
+</odoo>

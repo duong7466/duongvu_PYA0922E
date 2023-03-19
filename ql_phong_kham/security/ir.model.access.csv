@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_doctor,access_doctor,ql_phong_kham.model_dv_doctor,ql_phong_kham.group_hospital_admin,1,1,1,1
+access_patient,access_patient,ql_phong_kham.model_dv_patient,ql_phong_kham.group_hospital_admin,1,1,1,1
+access_appointment,access_appointment,ql_phong_kham.model_dv_appointment,ql_phong_kham.group_hospital_admin,1,1,1,1
+access_appointment_medicine,access_appointment_medicine,ql_phong_kham.model_dv_appointment_prescription_medicine,ql_phong_kham.group_hospital_admin,1,1,1,1
+access_medicaltest,access_medicaltest,ql_phong_kham.model_dv_medicaltest,ql_phong_kham.group_hospital_admin,1,0,0,0
+
+access_doctor1,access_doctor1,ql_phong_kham.model_dv_doctor,ql_phong_kham.group_hospital_labman,1,0,0,0
+access_patient1,access_patient1,ql_phong_kham.model_dv_patient,ql_phong_kham.group_hospital_labman,1,0,0,0
+access_appointment1,access_appointment1,ql_phong_kham.model_dv_appointment,ql_phong_kham.group_hospital_labman,1,0,0,0
+access_appointment_medicine1,access_appointment_medicine1,ql_phong_kham.model_dv_appointment_prescription_medicine,ql_phong_kham.group_hospital_labman,1,0,0,0
+access_medicaltest1,access_medicaltest1,ql_phong_kham.model_dv_medicaltest,ql_phong_kham.group_hospital_labman,1,1,1,1
+
+
+
+
+

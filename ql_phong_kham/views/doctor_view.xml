@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="doctor_view_tree" model="ir.ui.view">
+            <field name="name">doctor_view_tree</field>
+            <field name="model">dv.doctor</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="address"/>
+                    <field name="gender"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="state"/>
+                    <field name="dob"/>
+                    <field name="age"/>
+                    <field name="joined_from"/>
+                    <field name="view_appointment_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="doctor_view_form" model="ir.ui.view">
+            <field name="name">doctor_view_form</field>
+            <field name="model">dv.doctor</field>
+            <field name="arch" type="xml">
+                <form string="">
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" placeholder="Tên bác sĩ"/>
+                                <field name="gender" widget="radio"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="address"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                                <field name="dob"/>
+                                <field name="age"/>
+                                <field name="joined_from"/>
+                                <field name="image_1920" widget='image' class="oe_avatar" options='{"preview_image": "image_128"}'/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Mô tả công việc">
+                                <field name='description'/>
+                            </page>
+                            <page string="Danh sách bệnh nhân" autofocus="autofocus">
+                                <group string="Tổng số cuộc hẹn:">
+                                    <h2>
+                                        <field name="total_appointments"/>
+                                    </h2>
+                                </group>
+                                <field name='view_appointment_ids'/>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="doctor_search" model="ir.ui.view">
+            <field name="name">Doctor Search</field>
+            <field name="model">dv.doctor</field>
+            <field name="arch" type="xml">
+                <search string="Doctor">
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="state"/>
+                    <field name="gender"/>
+                    <field name="phone"/>
+                    <field name="age"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="doctor_kanban" model="ir.ui.view">
+            <field name="name">Doctor Kanban</field>
+            <field name="model">dv.doctor</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="gender">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="gender"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_image">
+                                    <img t-att-src="kanban_image('dv.doctor', 'image_128', record.id.raw_value)" class="oe_avatar"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <h1 class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </h1>
+                                    <ul>
+                                        <li>Giới tính :
+                                            <field name="gender"/>
+                                        </li>
+                                        <li>Số điện thoại :
+                                            <field name="phone"/>
+                                        </li>
+                                        <li>Địa chỉ Email :
+                                            <field name="email"/>
+                                        </li>
+                                        <li>Hợp đồng làm việc :
+                                            <field name="state"/>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="action_halftime_confirm" model="ir.actions.server">
+            <field name="name">Confirm Parttime</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_dv_doctor"/>
+            <field name="binding_model_id" ref="model_dv_doctor"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">records.action_state_halftime()</field>
+        </record>
+
+        <record id="action_fulltime_confirm" model="ir.actions.server">
+            <field name="name">Confirm Fulltime</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_dv_doctor"/>
+            <field name="binding_model_id" ref="model_dv_doctor"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">records.action_state_fulltime()</field>
+        </record>
+
+
+        <record id="doctor_action" model="ir.actions.act_window">
+            <field name="name">Bác Sĩ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dv.doctor</field>
+            <field name="view_mode">tree,form,search,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Danh sách bác sĩ trống
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Bác sĩ" id="doctor_menu_id" sequence="2"
+                  parent="ql_phong_kham.patient_root_menu_id" action="ql_phong_kham.doctor_action"/>
+
+
+    </data>
+</odoo>

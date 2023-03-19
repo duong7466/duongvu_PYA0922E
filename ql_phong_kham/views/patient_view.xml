@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="patient_view_tree" model="ir.ui.view">
+            <field name="name">patient_view_tree</field>
+            <field name="model">dv.patient</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="address"/>
+                    <field name="gender"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="dob"/>
+                    <field name="age"/>
+                    <field name="patient_appointment_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="patient_view_form" model="ir.ui.view">
+            <field name="name">patient_view_form</field>
+            <field name="model">dv.patient</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" placeholder="Tên bệnh nhân"/>
+                                <field name="address"/>
+                                <field name="phone"/>
+                                <field name="dob"/>
+                            </group>
+                            <group>
+                                <field name="gender" widget="radio"/>
+                                <field name="email"/>
+                                <field name="age"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lịch hẹn">
+                                <group string="Tổng số cuộc hẹn:">
+                                    <h2>
+                                        <field name="total_appointments"/>
+                                    </h2>
+                                </group>
+                                <field name="patient_appointment_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="patient_search" model="ir.ui.view">
+            <field name="name">Patient Search</field>
+            <field name="model">dv.patient</field>
+            <field name="arch" type="xml">
+                <search string="Patients">
+                    <field name="name"/>
+                    <field name="gender"/>
+                    <field name="phone"/>
+                    <field name="age"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="patient_kanban" model="ir.ui.view">
+            <field name="name">Patient Kanban View</field>
+            <field name="model">dv.patient</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="gender">
+                    <field name="name"/>
+                    <field name="gender"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <h1 class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </h1>
+                                    <ul>
+                                        <li>Giới tính :
+                                            <field name="gender"/>
+                                        </li>
+                                        <li>Số điện thoại :
+                                            <field name="phone"/>
+                                        </li>
+                                        <li>Địa chỉ Email :
+                                            <field name="email"/>
+                                        </li>
+                                        <li>Ngày tháng năm sinh :
+                                            <field name="dob"/>
+                                        </li>
+                                        <li>Tuổi :
+                                            <field name="age"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="patient_action" model="ir.actions.act_window">
+            <field name="name">Tất cả bệnh nhân</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dv.patient</field>
+            <field name="view_mode">tree,form,search,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Danh sách bệnh nhân trống
+                </p>
+            </field>
+        </record>
+
+        <record id="male_patient_action" model="ir.actions.act_window">
+            <field name="name">Bệnh nhân nam</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dv.patient</field>
+            <field name="view_mode">tree,form,search,kanban</field>
+            <field name="context">{'default_gender' : 'male', 'hide_gender' : 1}</field>
+            <field name="domain">[('gender','=', 'male')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Danh sách bệnh nhân nam trống
+                </p>
+            </field>
+        </record>
+
+        <record id="female_patient_action" model="ir.actions.act_window">
+            <field name="name">Bệnh nhân nữ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dv.patient</field>
+            <field name="view_mode">tree,form,search,kanban</field>
+            <field name="context">{'default_gender' : 'female', 'hide_gender' : 1}</field>
+            <field name="domain">[('gender','=', 'female')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Danh sách bệnh nhân nữ trống
+                </p>
+            </field>
+        </record>
+
+
+        <record id="action_create_appointment" model="ir.actions.server">
+            <field name="name">Create appointment</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="ql_phong_kham.model_dv_patient"/>
+            <field name="binding_model_id" ref="ql_phong_kham.model_dv_patient"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">
+                if record:
+                    actions_values = env.ref('ql_phong_kham.appointment_action').sudo().read()[0]
+                    actions_values.update({'context': env.context})
+                    action = actions_values
+            </field>
+        </record>
+
+
+        <menuitem id="patient_root_menu_id" name="Phòng khám DV" sequence="2"/>
+        <menuitem id="patient_menu_id" name="Bệnh nhân" parent="ql_phong_kham.patient_root_menu_id"
+                  groups="ql_phong_kham.group_hospital_admin" sequence="1"/>
+
+        <menuitem id="patient_all_id" name="Tất cả bệnh nhân" parent="ql_phong_kham.patient_menu_id"
+                  action="ql_phong_kham.patient_action" sequence="1"/>
+
+        <menuitem id="patient_male_id" name="Bệnh nhân nam" parent="ql_phong_kham.patient_menu_id"
+                  action="ql_phong_kham.male_patient_action" sequence="2"/>
+
+        <menuitem id="patient_female_id" name="Bệnh nhân nữ" parent="ql_phong_kham.patient_menu_id"
+                  action="ql_phong_kham.female_patient_action" sequence="3"/>
+
+
+    </data>
+</odoo>
